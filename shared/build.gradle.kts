@@ -2,10 +2,12 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
+    id("app.cash.sqldelight") version "2.0.0-alpha05"
 }
 
 kotlin {
-    androidTarget()
+    //androidTarget()
+    android()
 
     listOf(
         iosX64(),
@@ -26,6 +28,7 @@ kotlin {
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
             }
         }
         val androidMain by getting {
@@ -33,6 +36,7 @@ kotlin {
                 api("androidx.activity:activity-compose:1.7.2")
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.10.1")
+                implementation("app.cash.sqldelight:android-driver:2.0.0-alpha05")
             }
         }
         val iosX64Main by getting
@@ -43,6 +47,17 @@ kotlin {
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+            dependencies {
+                implementation("app.cash.sqldelight:native-driver:2.0.0-alpha05")
+            }
+        }
+    }
+}
+
+sqldelight{
+    databases{
+        create("NoteDatabase"){
+            packageName.set("com.myapplication")
         }
     }
 }
