@@ -6,6 +6,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,15 +35,19 @@ import androidx.navigation.NavController
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
+import org.koin.androidx.compose.get
+import org.koin.androidx.compose.koinViewModel
 
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun NoteListScreen(
-    navController: NavController,
-    viewModel: NoteListViewModel
+    navController: NavController/*,
+    viewModel: NoteListViewModel*/
 ) {
     val context  = LocalContext.current
+    //val viewModel = get<NoteListViewModel>()
+    val viewModel = koinViewModel<NoteListViewModel>()
     val state by viewModel.state.collectAsState()
 
     LaunchedEffect(key1 = true) {
@@ -53,17 +58,14 @@ fun NoteListScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    Toast.makeText(context,
-                        "Hi i am toast",
-                        Toast.LENGTH_LONG).show()
                     navController.navigate("note_detail/-1L")
                 },
-                backgroundColor = Color.Black
+                backgroundColor = if (isSystemInDarkTheme()) Color.White else Color.Black
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
                     contentDescription = "Add note",
-                    tint = Color.White
+                    tint = if (isSystemInDarkTheme()) Color.Black else Color.White
                 )
             }
         }
@@ -110,9 +112,6 @@ fun NoteListScreen(
                         note = note,
                         backgroundColor = Color(note.colorHex),
                         onNoteClick = {
-                            Toast.makeText(context,
-                                "Hi i am toast",
-                                Toast.LENGTH_LONG).show()
                             navController.navigate("note_detail/${note.id}")
                         },
                         onDeleteClick = {

@@ -14,11 +14,10 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class NoteListViewModel(
-    db: NoteDatabase,
-    private val savedStateHandle: SavedStateHandle): ViewModel() {
+    private val noteDataSource: NoteDataSource,
+    private val savedStateHandle: SavedStateHandle
+): ViewModel() {
 
-    //private val db = NoteDatabase
-    private val noteDataSource = SqlDelightNoteDataSource(db)
 
     private val searchNotes = SearchNotes()
     private val notes = savedStateHandle.getStateFlow("notes", emptyList<Note>())
@@ -56,6 +55,4 @@ class NoteListViewModel(
             loadNotes()
         }
     }
-
-
 }

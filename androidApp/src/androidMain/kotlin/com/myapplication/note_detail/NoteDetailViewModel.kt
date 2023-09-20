@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.myapplication.NoteDatabase
 import data.note.SqlDelightNoteDataSource
 import domain.note.Note
+import domain.note.NoteDataSource
 import domain.time.DateTimeUtil
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -15,11 +16,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class NoteDetailViewModel(
-    db: NoteDatabase,
-    private val savedStateHandle : SavedStateHandle
+    private val noteDataSource: NoteDataSource,
+    private val savedStateHandle: SavedStateHandle
 ): ViewModel() {
-
-    private val noteDataSource = SqlDelightNoteDataSource(db)
 
 
     private val noteTitle = savedStateHandle.getStateFlow("noteTitle", "")

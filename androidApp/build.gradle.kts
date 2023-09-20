@@ -54,5 +54,11 @@ dependencies{
 
     implementation("androidx.navigation:navigation-compose:2.5.1")
     implementation("com.google.accompanist:accompanist-flowlayout:0.17.0")
+    //Koin
+    implementation("io.insert-koin:koin-android:3.4.0")
+    implementation("io.insert-koin:koin-core:3.4.0")
+    implementation("io.insert-koin:koin-androidx-navigation:3.4.0")
+    implementation("io.insert-koin:koin-androidx-compose:3.4.0")
+    testImplementation("io.insert-koin:koin-test-junit4:3.4.0")
 
 }

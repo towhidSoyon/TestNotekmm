@@ -12,7 +12,7 @@ class NoteDetailViewModelFactory(
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(NoteDetailViewModel::class.java)) {
-            return NoteDetailViewModel(db, savedStateHandle) as T
+           // return NoteDetailViewModel(db, savedStateHandle) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

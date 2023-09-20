@@ -24,16 +24,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.myapplication.MainActivity
 import com.myapplication.note_list.NoteListViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun NoteDetailScreen(
     noteId: Long,
-    navController: NavController,
-    viewModel: NoteDetailViewModel
+    navController: NavController/*,
+    viewModel: NoteDetailViewModel*/
 ) {
 
-   /* val activity = MainActivity()
-    val viewModel = ViewModelProvider(activity)[NoteDetailViewModel::class.java]*/
+    val viewModel = koinViewModel<NoteDetailViewModel>()
     val state by viewModel.state.collectAsState()
     val hasNoteBeenSaved by viewModel.hasNoteBeenSaved.collectAsState()
 

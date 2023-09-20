@@ -2,6 +2,7 @@ package com.myapplication
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,6 +33,9 @@ import com.myapplication.note_list.NoteListScreen
 import com.myapplication.note_list.NoteListViewModel
 import com.myapplication.note_list.NoteListViewModelFactory
 import data.local.DatabaseDriverFactory
+import org.koin.androidx.compose.get
+import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun MyApplicationTheme(
@@ -77,25 +81,27 @@ class MainActivity() : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val driver: SqlDriver = DatabaseDriverFactory(applicationContext).createDriver()
-        val db = NoteDatabase(driver) // Replace with your database initialization
-        val savedStateHandle = SavedStateHandle() // Replace with how you create SavedStateHandle
+/*        val driver: SqlDriver = DatabaseDriverFactory(applicationContext).createDriver()
+        val db = NoteDatabase(driver)
+        val savedStateHandle = SavedStateHandle()
 
-        // Create the ViewModelFactory with the required dependencies
         val noteListViewModelFactory = NoteListViewModelFactory(db, savedStateHandle)
         val noteDetailsViewModelFactory = NoteDetailViewModelFactory(db,savedStateHandle)
 
-        // Use the ViewModelProvider with the factory to create the ViewModel
         val noteListViewModel = ViewModelProvider(this, noteListViewModelFactory)[NoteListViewModel::class.java]
 
-        val noteDetailsViewModel = ViewModelProvider(this,noteDetailsViewModelFactory)[NoteDetailViewModel::class.java]
+        val noteDetailsViewModel = ViewModelProvider(this,noteDetailsViewModelFactory)[NoteDetailViewModel::class.java]*/
+
+        //val viewModel : NoteListViewModel by viewModels()
 
         setContent {
             MyApplicationTheme {
                 val navController = rememberNavController()
+                //val noteListViewModel = getViewModel<NoteListViewModel>()
+                //val noteDetailsViewModel = getViewModel<NoteDetailViewModel>()
                 NavHost(navController = navController, startDestination = "note_list") {
                     composable(route = "note_list") {
-                        NoteListScreen(navController = navController, viewModel = noteListViewModel)
+                        NoteListScreen(navController = navController/*,viewModel= noteListViewModel*/)
                     }
                     composable(
                         route = "note_detail/{noteId}",
@@ -107,7 +113,7 @@ class MainActivity() : AppCompatActivity() {
                         )
                     ) { backStackEntry ->
                         val noteId = backStackEntry.arguments?.getLong("noteId") ?: -1L
-                        NoteDetailScreen(noteId = noteId, navController = navController, viewModel = noteDetailsViewModel)
+                        NoteDetailScreen(noteId = noteId, navController = navController/*, viewModel = noteDetailsViewModel*/)
                     }
                 }
             }
